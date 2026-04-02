@@ -241,6 +241,8 @@ res.send("ok")
 
 // REGISTRO
 app.post("/registro", async (req,res)=>{
+try{
+
 let existe = await Usuario.findOne({correo:req.body.correo})
 if(existe) return res.json({mensaje:"correo ya registrado"})
 
@@ -254,7 +256,12 @@ rol:"cliente"
 
 await nuevo.save()
 
-res.json({mensaje:"usuario creado"}) // 🔥 CAMBIO CLAVE
+res.json({mensaje:"usuario creado"})
+
+}catch(error){
+console.log(error)
+res.status(500).json({mensaje:"error servidor"})
+}
 })
 
 
