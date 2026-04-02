@@ -12,11 +12,12 @@ app.use(express.urlencoded({ extended: true }))
 app.use("/uploads", express.static(path.join(__dirname,"uploads")))
 
 // CONEXION
-mongoose.connect("mongodb+srv://usuario:password@cluster.mongodb.net/sensify", {
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
-});
-
+})
+.then(() => console.log("Mongo conectado"))
+.catch(err => console.log("Error Mongo:", err));
 
 // MULTER
 const storage = multer.diskStorage({
