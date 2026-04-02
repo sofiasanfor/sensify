@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Sensify</title>
+
+<style>
+
+body{
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:'Poppins',sans-serif;
+background:linear-gradient(135deg,#0f0f14,#1b0b2e);
+color:white;
+}
+
+/* TARJETA */
+.login{
+background:#1a1a24;
+padding:40px;
+border-radius:16px;
+width:320px;
+text-align:center;
+border:1px solid #2e2e40;
+box-shadow:0 0 20px rgba(255,79,216,0.2);
+transition:0.3s;
+}
+
+.login:hover{
+transform:translateY(-5px);
+}
+
+/* LOGO */
+.logo{
+width:140px;
+margin-bottom:10px;
+}
+
+/* TITULO */
+.login h2{
+margin-bottom:20px;
+color:#ff8be3;
+}
+
+/* INPUTS */
+.login input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:8px;
+border:none;
+background:#2a2a35;
+color:white;
+outline:none;
+}
+
+.login input::placeholder{
+color:#aaa;
+}
+
+/* BOTON */
+.login button{
+margin-top:10px;
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+background:#ff4fd8;
+color:white;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+}
+
+.login button:hover{
+background:#ff2fcf;
+transform:scale(1.05);
+}
+
+/* LINK */
+.login a{
+color:#ff8be3;
+text-decoration:none;
+}
+
+.login a:hover{
+text-decoration:underline;
+}
+
+/*cel*/
+@media (max-width: 768px){
+
+  /* 🔥 layout general */
+  .container{
+    flex-direction: column !important;
+    padding: 15px !important;
+  }
+
+  /* 🔥 sidebar */
+  .sidebar{
+    width:100% !important;
+    display:flex;
+    overflow-x:auto;
+    gap:10px;
+    min-height:auto !important;
+  }
+
+  /* 🔥 buscador */
+  .buscador{
+    width:100% !important;
+  }
+
+  /* 🔥 banner */
+  .banner-container{
+    height:180px !important;
+  }
+
+  /* 🔥 navbar */
+  .menu{
+    display:none; /* ocultamos menú feo en móvil */
+  }
+
+  /* 🔥 grids */
+  .productos{
+    grid-template-columns: 1fr !important;
+  }
+
+  /* 🔥 producto (vista detalle) */
+  .container{
+    grid-template-columns: 1fr !important;
+  }
+
+  /* 🔥 login */
+  .login{
+    width:90% !important;
+    padding:20px !important;
+  }
+
+  /* 🔥 admin panel */
+  .panel{
+    flex-direction: column;
+  }
+
+  .menu{
+    width:100% !important;
+    height:auto !important;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="login">
+
+<img src="logo.png" class="logo">
+
+<h2>Iniciar sesión</h2>
+
+<input id="correo" placeholder="Correo">
+<input id="password" type="password" placeholder="Contraseña">
+
+<button onclick="login()">Entrar</button>
+<p style="margin-top:10px; text-align:center;">
+  <a href="recuperar.html" style="color:#ff4dc4; text-decoration:none;">
+    ¿Olvidaste tu contraseña?
+  </a>
+</p>
+
+<br><br>
+
+<a href="registro.html">Crear cuenta</a>
+
+</div>
+
+<script>
+
+async function login(){
+
+let datos = {
+correo:document.getElementById("correo").value,
+password:document.getElementById("password").value
+}
+
+let res = await fetch("/login",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify(datos)
+})
+
+let data = await res.json()
+
+if(data.mensaje !== "login correcto"){
+alert("Correo o contraseña incorrectos")
+return
+}
+
+// GUARDAR SESION
+localStorage.setItem("usuario",JSON.stringify(data))
+
+// REDIRECCION
+
+if(data.rol === "admin"){
+window.location="admin.html"
+}else{
+window.location="index.html"
+}
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Producto - Sensify</title>
+
+<style>
+
+body{
+margin:0;
+font-family:'Poppins',sans-serif;
+background:#0f0f14;
+color:white;
+}
+
+/* NAVBAR */
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:10px 30px;
+background:linear-gradient(90deg,#1b0b2e,#2a0f4a);
+}
+
+.logo img{height:60px;}
+
+.menu{
+display:flex;
+gap:30px;
+}
+
+.menu a{
+color:#ddd;
+text-decoration:none;
+}
+
+.menu a:hover{color:#ff8be3;}
+
+.derecha{
+display:flex;
+gap:15px;
+align-items:center;
+}
+
+.carrito{
+position:relative;
+font-size:22px;
+cursor:pointer;
+}
+
+.contador{
+position:absolute;
+top:-8px;
+right:-10px;
+background:red;
+color:white;
+font-size:12px;
+padding:2px 6px;
+border-radius:50%;
+display:none;
+}
+
+.login a{
+background:#ff4fd8;
+padding:8px 15px;
+border-radius:8px;
+color:white;
+text-decoration:none;
+}
+
+
+/* CONTENEDOR */
+.container{
+max-width:1200px;
+margin:auto;
+padding:40px;
+
+display:grid;
+grid-template-columns: auto 1fr 300px; /* galeria | info | compra */
+gap:40px;
+align-items:start;
+}
+
+.compra{
+width:300px;
+}
+
+/* GALERIA */
+.galeria{
+display:flex;
+gap:15px;
+}
+
+.miniaturas{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.miniaturas img{
+width:70px;
+height:70px;
+object-fit:cover;
+cursor:pointer;
+border-radius:8px;
+border:2px solid transparent;
+}
+
+.miniaturas img:hover{
+border:2px solid #ff4fd8;
+}
+
+.zoom-container{
+overflow:hidden;
+border-radius:10px;
+}
+
+.zoom-container img{
+width:400px;
+height:400px;
+object-fit:contain;
+background:white;
+transition:transform 0.2s;
+}
+
+.zoom-container:hover img{
+transform:scale(1.8);
+}
+
+/* INFO */
+.info{
+flex:1;
+}
+
+.nombre{
+font-size:28px;
+color:#ff8be3;
+}
+
+.estrellas span{
+font-size:20px;
+cursor:pointer;
+}
+
+.precio{
+font-size:22px;
+margin:15px 0;
+}
+
+/* PANEL DERECHO */
+.compra{
+width:280px;
+background:#1a1a24;
+padding:20px;
+border-radius:12px;
+border:1px solid #2e2e40;
+height:fit-content;
+}
+
+.select{
+width:100%;
+padding:8px;
+margin:10px 0;
+border-radius:6px;
+border:none;
+}
+
+.btn{
+width:100%;
+padding:12px;
+background:#ff4fd8;
+border:none;
+color:white;
+border-radius:8px;
+cursor:pointer;
+}
+
+.btn:hover{
+background:#ff2fcf;
+}
+
+/* FOOTER */
+.contacto{
+background:#0b0b0f;
+padding:40px;
+text-align:center;
+}
+
+.logo-footer{
+width:180px;
+margin-bottom:20px;
+}
+
+.redes img{
+width:30px;
+margin:0 10px;
+cursor:pointer;
+}
+
+/* INFO FINAL */
+.info-final{
+background:#111;
+padding:40px 20px;
+display:flex;
+justify-content:space-around;
+flex-wrap:wrap;
+text-align:center;
+}
+
+.bloque{
+width:200px;
+margin:10px;
+}
+
+.bloque h4{
+color:#ff4fd8;
+}
+
+/* WHATSAPP */
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+display:flex;
+align-items:center;
+gap:10px;
+text-decoration:none;
+}
+
+.texto{
+background:white;
+color:#333;
+padding:10px;
+border-radius:8px;
+}
+
+.whatsapp img{
+width:50px;
+background:#25D366;
+padding:10px;
+border-radius:50%;
+}
+
+/* TOAST */
+#toast{
+position:fixed;
+bottom:30px;
+left:50%;
+transform:translateX(-50%);
+background:#ff4fd8;
+color:white;
+padding:12px 20px;
+border-radius:8px;
+opacity:0;
+transition:0.3s;
+}
+
+.comentarios{
+max-width:800px;
+margin:60px auto;
+background:#1a1a24;
+padding:30px;
+border-radius:15px;
+border:1px solid #2e2e40;
+}
+
+.comentarios h2{
+color:#ff8be3;
+text-align:center;
+margin-bottom:20px;
+}
+
+.comentarios textarea{
+width:100%;
+height:100px;
+padding:12px;
+border-radius:8px;
+border:none;
+margin-bottom:15px;
+resize:none;
+}
+
+.comentarios button{
+background:#ff4fd8;
+border:none;
+padding:10px 20px;
+color:white;
+border-radius:8px;
+cursor:pointer;
+display:block;
+margin:auto;
+}
+
+.comentarios button:hover{
+background:#ff2fcf;
+}
+
+.comentario{
+background:#111;
+padding:15px;
+border-radius:10px;
+margin-top:15px;
+border:1px solid #2e2e40;
+}
+
+.comentario span{
+color:#ff8be3;
+font-size:12px;
+}
+
+.estrellas-input span.activa{
+color:#ff4fd8;
+}
+
+.promedio{
+text-align:center;
+margin-bottom:10px;
+color:#ff8be3;
+font-size:16px;
+}
+
+.contacto{
+background:#0b0b0f;
+padding:40px;
+text-align:center;
+}
+
+.logo-footer{
+width:180px;
+margin-bottom:20px;
+}
+
+.contacto p{
+margin:8px 0;
+color:#ccc;
+}
+
+.redes{
+margin-top:20px;
+}
+
+.redes img{
+width:30px;
+margin:0 10px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.redes img:hover{
+transform:scale(1.2);
+}
+
+/* 🔥 ESTE ES EL IMPORTANTE */
+
+.bloque{
+width:200px;
+margin:10px;
+}
+
+.bloque h4{
+color:#ff4fd8;
+}
+
+
+.bloque{
+width:200px;
+margin:10px;
+}
+
+.bloque h4{
+color:#ff4fd8;
+}
+
+.descripcion-larga{
+max-width:1200px;
+margin:30px auto;
+padding:20px 40px;
+color:#ccc;
+line-height:1.6;
+}
+
+.info{
+width:100%;          /* 🔥 usa su columna real */
+max-width:100%;      /* 🔥 evita límites raros */
+overflow:hidden;     /* 🔥 corta el exceso */
+}
+
+
+
+.info p{
+max-width:500px;
+}
+
+/*cel*/
+@media (max-width: 768px){
+
+  /* 🔥 layout general */
+  .container{
+    flex-direction: column !important;
+    padding: 15px !important;
+  }
+
+  /* 🔥 sidebar */
+  .sidebar{
+    width:100% !important;
+    display:flex;
+    overflow-x:auto;
+    gap:10px;
+    min-height:auto !important;
+  }
+
+  /* 🔥 buscador */
+  .buscador{
+    width:100% !important;
+  }
+
+  /* 🔥 banner */
+  .banner-container{
+    height:180px !important;
+  }
+
+  /* 🔥 navbar */
+  .menu{
+    display:none; /* ocultamos menú feo en móvil */
+  }
+
+  /* 🔥 grids */
+  .productos{
+    grid-template-columns: 1fr !important;
+  }
+
+  /* 🔥 producto (vista detalle) */
+  .container{
+    grid-template-columns: 1fr !important;
+  }
+
+  /* 🔥 login */
+  .login{
+    width:90% !important;
+    padding:20px !important;
+  }
+
+  /* 🔥 admin panel */
+  .panel{
+    flex-direction: column;
+  }
+
+  .menu{
+    width:100% !important;
+    height:auto !important;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+<div class="logo"><img src="logo.png"></div>
+
+<div class="menu">
+<a href="index.html">Home</a>
+<a href="sensify.html">Sensify</a>
+<a href="contacto.html">Contáctenos</a>
+</div>
+
+<div class="derecha">
+<div class="carrito" onclick="window.location='carrito.html'">
+🛒<span class="contador"></span>
+</div>
+<div class="login"><a href="login.html">Iniciar sesión</a></div>
+</div>
+</div>
+
+<div class="container">
+
+<!-- GALERIA -->
+<div class="galeria">
+<div class="miniaturas" id="miniaturas"></div>
+
+<div class="zoom-container">
+<img id="imgPrincipal">
+</div>
+</div>
+
+<!-- INFO -->
+<div class="info">
+<div class="nombre" id="nombre"></div>
+
+<div class="estrellas" id="estrellas"></div>
+
+<p id="descripcionCorta"></p>
+
+<div class="precio" id="precio"></div>
+</div>
+
+<!-- COMPRA -->
+<div class="compra">
+
+<div class="precio" id="precio2"></div>
+
+<p id="stock"></p>
+
+<select id="cantidad" class="select"></select>
+
+<button class="btn" onclick="agregar()">Agregar al carrito</button>
+
+</div>
+
+</div>
+
+<div class="descripcion-larga" id="descripcionLarga"></div>
+
+<div class="comentarios">
+
+<h2>💬 Opiniones</h2>
+
+<!-- PROMEDIO -->
+<div id="promedio" class="promedio"></div>
+
+<!-- ESTRELLAS PARA VOTAR -->
+<div class="estrellas-input" id="estrellasInput">
+<span onclick="setEstrella(1)">☆</span>
+<span onclick="setEstrella(2)">☆</span>
+<span onclick="setEstrella(3)">☆</span>
+<span onclick="setEstrella(4)">☆</span>
+<span onclick="setEstrella(5)">☆</span>
+</div>
+
+<textarea id="textoComentario" placeholder="Cuéntanos tu experiencia..."></textarea>
+
+<button onclick="publicarComentario()">Publicar</button>
+
+<div id="listaComentarios"></div>
+
+</div>
+
+<div class="contacto">
+
+<img src="logo.png" class="logo-footer">
+
+<p>Tienda online en Bogotá, para todo Colombia</p>
+
+<p>Pide ahora tus productos:</p>
+
+<p><b>LÍNEA DE WHATSAPP</b></p>
+<p>+57 316 9999985</p>
+
+<p>Email: sensify.tienda@gmail.com</p>
+
+<div class="redes">
+<a href="https://www.facebook.com/share/1a1P11ZPDP/" target="_blank">
+<img src="facebook.png">
+</a>
+
+<a href="https://www.instagram.com/sensify.co_?igsh=eHBlaWJmNngxbmd5" target="_blank">
+<img src="instagram.png">
+</a>
+
+<a href="https://wa.me/3169999985?text=Hola!%20quiero%20información" target="_blank">
+<img src="whatsapp.png">
+</a>
+</div>
+
+</div>
+
+<div class="info">
+
+<div class="bloque">
+<h4>TU PEDIDO EN CORTO TIEMPO</h4>
+<p>Realiza tu pedido con la seguridad de que demorará menos de una semana en llegar.</p>
+</div>
+
+<div class="bloque">
+<h4>MEDIOS DE PAGO</h4>
+<p>PSE, Tarjetas Débito, Crédito, Transferencia Electrónica, Servicio contraentrega.</p>
+</div>
+
+<div class="bloque">
+<h4>ENVÍOS A CUALQUIER PARTE DE COLOMBIA</h4>
+<p>Se entregarán de acuerdo a las políticas establecidas por la compañía de transporte.</p>
+</div>
+
+<div class="bloque">
+<h4>ASESORÍA PERSONALIZADA</h4>
+<p>Contacta a nuestros asesores expertos a través de WhatsApp y recibe atención oportuna.</p>
+</div>
+
+<div class="bloque">
+<h4>PEDIDO DISCRETO</h4>
+<p>Envíos discretos, nadie sabrá lo que has comprado, la sorpresa es para ti.</p>
+</div>
+
+</div>
+
+<script>
+
+let idVistaActual = null
+
+async function cargar(){
+
+let id = new URLSearchParams(window.location.search).get("id")
+
+let res = await fetch("/productos")
+let productos = await res.json()
+
+let p = productos.find(x=>x._id==id)
+
+// 🔥 SUMAR VISTA SOLO UNA VEZ REAL
+let yaVisto = localStorage.getItem("vista_" + id)
+
+if (!yaVisto) {
+
+  localStorage.setItem("vista_" + id, "si")
+
+  fetch("/productos/vista/" + id, {
+    method: "POST"
+  })
+
+}
+
+/* IMAGENES */
+let imgs = p.imagenes && p.imagenes.length ? p.imagenes : [p.imagen]
+
+let mini = document.getElementById("miniaturas")
+let principal = document.getElementById("imgPrincipal")
+
+if(imgs.length > 0){
+  principal.src = imgs[0]
+}
+mini.innerHTML = "" // limpia
+
+imgs.forEach(img=>{
+mini.innerHTML += `<img src="${img}" onclick="cambiar('${img}')">`
+})
+
+document.getElementById("nombre").innerText = p.nombre
+let texto = p.descripcion || ""
+
+let corta = texto.substring(0, 120)
+let larga = texto.substring(120)
+
+document.getElementById("descripcionCorta").innerText = corta + (texto.length > 120 ? "..." : "")
+document.getElementById("descripcionLarga").innerText = larga
+if(p.promo === true){
+
+document.getElementById("precio").innerHTML = `
+<span style="background:#ff4fd8; padding:5px 10px; border-radius:8px;">
+Promoción
+</span>
+
+<h2>
+<span style="color:#ff8be3;">-${p.descuento}%</span>
+$${p.precioPromo}
+</h2>
+
+<p style="text-decoration:line-through; color:#888;">
+$${p.precio}
+</p>
+`
+
+document.getElementById("precio2").innerHTML = `
+<h2>$${p.precioPromo}</h2>
+<p style="text-decoration:line-through; color:#888;">
+$${p.precio}
+</p>
+`
+
+}else{
+
+document.getElementById("precio").innerText = "$"+p.precio
+document.getElementById("precio2").innerText = "$"+p.precio
+
+}
+
+/* STOCK */
+let stock = Math.floor(Math.random()*10)+1
+document.getElementById("stock").innerText =
+stock<=3 ? "⚠️ Solo quedan "+stock : "Disponible"
+
+/* CANTIDAD */
+let select = document.getElementById("cantidad")
+for(let i=1;i<=10;i++){
+select.innerHTML += `<option>${i}</option>`
+}
+
+
+/* CONTADOR */
+actualizarContador()
+
+}
+
+function cambiar(src){
+document.getElementById("imgPrincipal").src = src
+}
+
+
+/* CARRITO */
+function agregar(){
+
+let id = new URLSearchParams(window.location.search).get("id")
+
+fetch("/productos")
+.then(r=>r.json())
+.then(productos=>{
+
+let p = productos.find(x=>x._id==id)
+
+let cantidad = Number(document.getElementById("cantidad").value)
+
+let carrito = JSON.parse(localStorage.getItem("carrito")) || []
+
+let ex = carrito.find(x=>x._id==p._id)
+
+if(ex){
+ex.cantidad += cantidad
+}else{
+carrito.push({...p,cantidad})
+}
+
+localStorage.setItem("carrito",JSON.stringify(carrito))
+
+actualizarContador()
+
+mostrarNotificacion("Producto agregado 🛒")
+
+})
+}
+
+/* CONTADOR */
+function actualizarContador(){
+
+let carrito = JSON.parse(localStorage.getItem("carrito")) || []
+
+document.querySelectorAll(".contador").forEach(c=>{
+
+if(carrito.length===0){
+c.style.display="none"
+}else{
+c.style.display="block"
+c.innerText = carrito.reduce((a,p)=>a+p.cantidad,0)
+}
+
+})
+}
+
+/* TOAST */
+function mostrarNotificacion(msg){
+
+let t = document.getElementById("toast")
+
+t.innerText = msg
+t.style.opacity = "1"
+
+setTimeout(()=>{
+t.style.opacity="0"
+},2000)
+}
+
+let calificacionSeleccionada = 0
+
+function setEstrella(n){
+
+calificacionSeleccionada = n
+
+let estrellas = document.querySelectorAll("#estrellasInput span")
+
+estrellas.forEach((e,i)=>{
+e.innerText = i < n ? "★" : "☆"
+e.classList.toggle("activa", i < n)
+})
+
+}
+
+/* CARGAR */
+function cargarComentarios(){
+
+let id = new URLSearchParams(window.location.search).get("id")
+
+let comentarios = JSON.parse(localStorage.getItem("comentarios_"+id)) || []
+
+let cont = document.getElementById("listaComentarios")
+
+cont.innerHTML = ""
+
+/* PROMEDIO */
+let promedio = 0
+
+if(comentarios.length > 0){
+promedio = comentarios.reduce((acc,c)=> acc + c.estrellas,0) / comentarios.length
+}
+
+/* MOSTRAR ARRIBA (SIN CLICK) */
+let estrellasTop = ""
+for(let i=1;i<=5;i++){
+estrellasTop += i <= Math.round(promedio) ? "★" : "☆"
+}
+
+document.getElementById("estrellas").innerHTML =
+estrellasTop + " ("+promedio.toFixed(1)+")"
+
+/* LISTA */
+comentarios.slice().reverse().forEach(c=>{
+
+cont.innerHTML += `
+<div class="comentario">
+<div class="estrellas">${"★".repeat(c.estrellas)}${"☆".repeat(5-c.estrellas)}</div>
+<span>Anónimo</span>
+<p>${c.texto}</p>
+</div>
+`
+
+})
+
+}
+
+/* PUBLICAR */
+function publicarComentario(){
+
+let input = document.getElementById("textoComentario")
+
+let texto = input.value.trim()
+
+/* VALIDACIÓN FLEXIBLE */
+if(texto === "" && calificacionSeleccionada === 0){
+alert("Agrega un comentario o selecciona estrellas 😅")
+return
+}
+
+let id = new URLSearchParams(window.location.search).get("id")
+
+let comentarios = JSON.parse(localStorage.getItem("comentarios_"+id)) || []
+
+comentarios.push({
+texto: texto,
+estrellas: calificacionSeleccionada || 0
+})
+
+localStorage.setItem("comentarios_"+id, JSON.stringify(comentarios))
+
+input.value = ""
+setEstrella(0)
+
+cargarComentarios()
+
+mostrarNotificacion("Comentario publicado 💜")
+
+}
+
+cargar()
+cargarComentarios()
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sensify</title>
+
+<style>
+
+body{
+margin:0;
+font-family:'Poppins',sans-serif;
+background:#0f0f14;
+color:white;
+}
+
+/* LAYOUT */
+.container{
+display:flex;
+align-items:flex-start;
+justify-content:center;
+}
+
+.sidebar{
+width:220px;
+background:#1a1a24;
+padding:20px;
+min-height:100vh;
+}
+
+.content{
+flex:1;
+padding:30px;
+max-width:1200px;
+}
+
+.sidebar h3{ 
+  color:#ff8be3; 
+}
+
+.sidebar div{
+margin:10px 0;
+cursor:pointer;
+color:#ccc;
+}
+
+.sidebar div:hover{ color:#ff8be3; }
+
+.content{
+flex:1;
+padding:30px;
+}
+
+/* BUSCADOR */
+.buscador{
+width:500px;
+padding:12px;
+border-radius:8px;
+border:none;
+margin-bottom:20px;
+}
+
+/* TITULO */
+.titulo{
+font-size:22px;
+margin:20px 0;
+color:#ff8be3;
+}
+
+/* CARRUSEL */
+.carrusel-container{
+position:relative;
+margin-bottom:30px;
+}
+
+.carrusel{
+display:flex;
+overflow:hidden;
+gap:20px;
+scroll-behavior:smooth;
+}
+
+.item{
+min-width:220px;
+max-width:220px;
+flex-shrink:0;
+background:#1a1a24;
+padding:15px;
+border-radius:12px;
+text-align:center;
+border:1px solid #2e2e40;
+}
+
+.item img{
+width:100%;
+height:180px;
+object-fit:contain;
+border-radius:8px;
+}
+
+.flecha{
+position:absolute;
+top:40%;
+background:#ff4fd8;
+border:none;
+color:white;
+padding:8px;
+cursor:pointer;
+border-radius:6px;
+}
+
+.izq{ left:10px; }
+.der{ right:10px; }
+
+.flecha{
+  z-index: 10;
+  opacity: 0.9;
+}
+
+/* PRODUCTOS */
+.productos{
+display:grid;
+grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+gap:20px;
+}
+
+.producto{
+background:#1a1a24;
+padding:15px;
+border-radius:12px;
+text-align:center;
+border:1px solid #2e2e40;
+max-width:220px;
+margin:auto;
+
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+
+min-height:360px;
+}
+
+.producto h3{
+min-height:40px;
+}
+
+.producto img{
+width:100%;
+height:180px;
+/* 🔥 FIX */
+object-fit:contain;
+/* 🔥 FIX */
+border-radius:8px;
+}
+
+button{
+margin-top:10px;
+padding:6px 10px;
+border:none;
+border-radius:6px;
+background:#ff4fd8;
+color:white;
+cursor:pointer;
+}
+
+/* INFO FINAL */
+.info{
+background:#111;
+padding:40px 20px;
+display:flex;
+justify-content:space-around;
+flex-wrap:wrap;
+text-align:center;
+}
+
+.bloque{
+width:200px;
+margin:10px;
+}
+
+.bloque h4{
+color:#ff4fd8;
+}
+
+/* ARREGLAR LOGO */
+.logo img{
+height:60px;
+width:auto;
+}
+
+.login a{
+background:#ff4fd8;
+padding:8px 15px;
+border-radius:8px;
+color:white;
+text-decoration:none;
+font-weight:bold;
+}
+
+.login a:hover{
+background:#ff2fcf;
+}
+
+/* EVITAR QUE SE DAÑE LA NAVBAR */
+.navbar{
+height:80px;
+overflow:hidden;
+}
+
+
+/* ===== NAVBAR ===== */
+.navbar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:10px 30px;
+background:linear-gradient(90deg,#1b0b2e,#2a0f4a);
+position:relative;
+}
+
+.menu{
+position:absolute;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+gap:30px;
+}
+
+.menu a{
+color:#ddd;
+text-decoration:none;
+}
+
+.menu a:hover{
+color:#ff8be3;
+}
+
+.derecha{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.carrito{
+position:relative;
+font-size:20px;
+}
+
+.contador{
+position:absolute;
+top:-8px;
+right:-10px;
+background:red;
+color:white;
+font-size:12px;
+padding:2px 6px;
+border-radius:50%;
+}
+
+.contacto{
+background:#0b0b0f;
+padding:40px;
+text-align:center;
+}
+
+.logo-footer{
+width:180px;
+margin-bottom:20px;
+}
+
+.contacto p{
+margin:8px 0;
+color:#ccc;
+}
+
+.redes{
+margin-top:20px;
+}
+
+.redes img{
+width:30px;
+margin:0 10px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.redes img:hover{
+transform:scale(1.2);
+}
+
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+display:flex;
+align-items:center;
+gap:10px;
+text-decoration:none;
+z-index:1000;
+}
+
+.texto{
+background:white;
+color:#333;
+padding:10px 15px;
+border-radius:8px;
+font-weight:bold;
+}
+
+.whatsapp img{
+width:50px;
+height:50px;
+background:#25D366;
+padding:10px;
+border-radius:50%;
+}
+
+.whatsapp:hover{
+transform:scale(1.05);
+}
+
+/* ==================== BANNER ==================== */
+.banner-container {
+    position: relative;
+    width: 100vw; /* 🔥 pantalla completa */
+    height: 260px;
+    overflow: hidden;
+
+    left: 50%;
+    transform: translateX(-50%); /* 🔥 centra REAL */
+}
+
+#banner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.banner-slider {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    transition: transform 0.6s ease-in-out;
+}
+
+.banner-slider img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 🔥 llena TODO */
+    object-position: center; /* 🔥 evita zoom raro */
+}
+
+/* Flechas más discretas y bonitas */
+.flecha {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 79, 216, 0.85);
+    color: white;
+    border: none;
+    width: 48px;
+    height: 48px;
+    font-size: 26px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+.flecha:hover {
+    background: #ff4fd8;
+    transform: translateY(-50%) scale(1.1);
+}
+
+/*cel*/
+@media (max-width: 768px){
+
+  /* 🔥 layout general */
+  .container{
+    flex-direction: column !important;
+    padding: 15px !important;
+  }
+
+  /* 🔥 sidebar */
+  .sidebar{
+    width:100% !important;
+    display:flex;
+    overflow-x:auto;
+    gap:10px;
+    min-height:auto !important;
+  }
+
+  /* 🔥 buscador */
+  .buscador{
+    width:100% !important;
+  }
+
+  /* 🔥 banner */
+  .banner-container{
+    height:180px !important;
+  }
+
+  /* 🔥 navbar */
+  .menu{
+    display:none; /* ocultamos menú feo en móvil */
+  }
+
+  /* 🔥 grids */
+  .productos{
+    grid-template-columns: 1fr !important;
+  }
+
+  /* 🔥 producto (vista detalle) */
+  .container{
+    grid-template-columns: 1fr !important;
+  }
+
+  /* 🔥 login */
+  .login{
+    width:90% !important;
+    padding:20px !important;
+  }
+
+  /* 🔥 admin panel */
+  .panel{
+    flex-direction: column;
+  }
+
+  .menu{
+    width:100% !important;
+    height:auto !important;
+  }
+
+}
+
+.flecha.izq { left: 30px; }
+.flecha.der { right: 30px; }
+
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+<div class="logo"><img src="logo.png"></div>
+
+<div class="menu">
+<a onclick="mostrarHome()">Home</a>
+<a href="sensify.html">Sensify</a>
+<a href="contacto.html">Contáctenos</a>
+</div>
+
+<div class="derecha">
+<div class="carrito" onclick="irCarrito()">
+🛒<span class="contador">0</span>
+</div>
+<div class="login"><a href="login.html">Iniciar sesión</a></div>
+</div>
+</div>
+
+<div class="banner-container">
+    <button class="flecha izq" onclick="moverBanner(-1)">❮</button>
+    
+    <div id="banner">
+        <div id="bannerSlider" class="banner-slider"></div>
+    </div>
+    
+    <button class="flecha der" onclick="moverBanner(1)">❯</button>
+</div>
+
+</div>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+<div onclick="filtrar('todo')">Todo</div>
+<div onclick="filtrar('estimulantes')">Estimulantes</div>
+<div onclick="filtrar('lubricantes')">Lubricantes</div>
+<div onclick="filtrar('juguetes')">Juguetes</div>
+<div onclick="filtrar('lenceria')">Lencería</div>
+
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+<input class="buscador" placeholder="Buscar..." onkeyup="buscar(this.value)">
+
+<h2 class="titulo">Productos más recientes</h2>
+
+<div class="carrusel-container">
+<button class="flecha izq" onclick="mover(-1)">❮</button>
+<div class="carrusel" id="carrusel"></div>
+<button class="flecha der" onclick="mover(1)">❯</button>
+</div>
+
+<div class="productos" id="productos"></div>
+
+</div>
+
+</div>
+
+<div class="contacto">
+
+<img src="logo.png" class="logo-footer">
+
+<p>Tienda online en Bogotá, para todo Colombia</p>
+
+<p>Pide ahora tus productos:</p>
+
+<p><b>LÍNEA DE WHATSAPP</b></p>
+<p>+57 316 9999985</p>
+
+<p>Email: sensify.tienda@gmail.com</p>
+
+<div class="redes">
+<a href="https://www.facebook.com/share/1a1P11ZPDP/" target="_blank">
+<img src="facebook.png">
+</a>
+
+<a href="https://www.instagram.com/sensify.co_?igsh=eHBlaWJmNngxbmd5" target="_blank">
+<img src="instagram.png">
+</a>
+
+<a href="https://wa.me/3169999985?text=Hola!%20quiero%20información" target="_blank">
+<img src="whatsapp.png">
+</a>
+</div>
+
+</div>
+
+<!-- INFO -->
+<div class="info">
+
+<div class="bloque">
+<h4>TU PEDIDO EN CORTO TIEMPO</h4>
+<p>Realiza tu pedido con la seguridad de que demorará menos de una semana en llegar.</p>
+</div>
+
+<div class="bloque">
+<h4>MEDIOS DE PAGO</h4>
+<p>PSE, Tarjetas Débito, Crédito, Transferencia Electrónica, Servicio contraentrega.</p>
+</div>
+
+<div class="bloque">
+<h4>ENVÍOS A CUALQUIER PARTE DE COLOMBIA</h4>
+<p>Se entregarán de acuerdo a las políticas establecidas por la compañía de transporte.</p>
+</div>
+
+<div class="bloque">
+<h4>ASESORÍA PERSONALIZADA</h4>
+<p>Contacta a nuestros asesores expertos a través de WhatsApp y recibe atención oportuna.</p>
+</div>
+
+<div class="bloque">
+<h4>PEDIDO DISCRETO</h4>
+<p>Envíos discretos, nadie sabrá lo que has comprado, la sorpresa es para ti.</p>
+</div>
+
+</div>
+
+<script>
+
+function actualizarContador(){
+
+let carrito = JSON.parse(localStorage.getItem("carrito")) || []
+
+let total = carrito.reduce((acc,p)=> acc + (p.cantidad || 1), 0)
+
+document.querySelectorAll(".contador").forEach(c=>{
+
+if(total === 0){
+c.style.display = "none"
+}else{
+c.style.display = "block"
+c.innerText = total
+}
+
+})
+
+}
+
+actualizarContador()
+
+</script>
+
+<script>
+
+let productosGlobal=[]
+
+async function cargarProductos(){
+let res=await fetch("/productos")
+productosGlobal=await res.json()
+
+mostrar(productosGlobal)
+mostrarCarrusel()
+}
+
+function mostrarCarrusel(){
+let ultimos=[...productosGlobal].slice(-6).reverse()
+let carrusel=document.getElementById("carrusel")
+carrusel.innerHTML=""
+
+ultimos.forEach(p=>{
+carrusel.innerHTML+= `
+<div class="item">
+
+<img src="${p.imagenes && p.imagenes.length ? p.imagenes[0] : 'logo.png'}">
+
+<p>${p.nombre}</p>
+
+${p.promo === true ? `
+<div style="display:flex; flex-direction:column; align-items:center;">
+
+<span style="
+background:#ff4fd8;
+padding:4px 10px;
+border-radius:6px;
+font-size:12px;
+margin-bottom:5px;
+">
+Promoción
+</span>
+
+<div style="display:flex; align-items:center; gap:10px;">
+<span style="color:#ff4d6d; font-weight:bold;">
+-${p.descuento}%
+</span>
+
+<span style="font-size:20px; font-weight:bold;">
+$${p.precioPromo}
+</span>
+</div>
+
+<span style="
+text-decoration:line-through;
+color:#888;
+font-size:13px;
+">
+$${p.precio}
+</span>
+
+</div>
+` : `
+<p>$${p.precio}</p>
+`}
+
+<!-- 🔥 BOTONES -->
+<div style="
+display:flex;
+gap:8px;
+justify-content:center;
+margin-top:10px;
+flex-wrap:wrap;
+">
+
+<button onclick="verProducto('${p._id}')">
+Ver más
+</button>
+
+<button onclick='agregarAlCarrito(${JSON.stringify(p)})'>
+Agregar
+</button>
+
+</div>
+
+</div>
+`
+})
+}
+
+function mover(dir){
+document.getElementById("carrusel").scrollLeft += dir*240
+}
+
+function mostrar(lista){
+let cont=document.getElementById("productos")
+cont.innerHTML=""
+
+lista.forEach(p=>{
+cont.innerHTML+= `
+<div class="producto">
+<img src="${p.imagenes && p.imagenes.length ? p.imagenes[0] : 'logo.png'}">
+<h3>${p.nombre}</h3>
+${p.promo === true ? `
+<div style="display:flex; flex-direction:column; align-items:center;">
+
+<span style="
+background:#ff4fd8;
+padding:4px 10px;
+border-radius:6px;
+font-size:12px;
+margin-bottom:5px;
+">
+Promoción
+</span>
+
+<div style="display:flex; align-items:center; gap:10px;">
+
+<span style="color:#ff4d6d; font-weight:bold;">
+-${p.descuento}%
+</span>
+
+<span style="font-size:20px; font-weight:bold;">
+$${p.precioPromo}
+</span>
+
+</div>
+
+<span style="
+text-decoration:line-through;
+color:#888;
+font-size:13px;
+">
+$${p.precio}
+</span>
+
+</div>
+` : `
+<p>$${p.precio}</p>
+`}
+<div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
+
+<button onclick="verProducto('${p._id}')">
+Ver más
+</button>
+
+<button onclick='agregarAlCarrito(${JSON.stringify(p)})'>
+Agregar al carrito
+</button>
+
+</div>
+</div>
+`
+})
+}
+
+function buscar(t){
+let f=productosGlobal.filter(p=>p.nombre.toLowerCase().includes(t.toLowerCase()))
+mostrar(f)
+}
+
+function filtrar(cat){
+if(cat==="todo"){ 
+  mostrar(productosGlobal); 
+  return 
+}
+
+let f = productosGlobal.filter(p => 
+  (p.categoria || "").trim().toLowerCase() === cat.toLowerCase()
+)
+
+mostrar(f)
+}
+
+function mostrarHome(){
+document.getElementById("banner").style.display="block"
+cargarProductos()
+}
+
+async function verProducto(id){
+  
+  // 🔥 SUMAR VISTA
+  await fetch("/productos/vista/" + id, {
+    method: "POST"
+  })
+
+  // luego haces lo que ya haces
+  window.location = "producto.html?id=" + id
+}
+
+mostrarHome()
+cargarBanner()
+
+function irCarrito(){
+window.location = "carrito.html"
+}
+
+function agregarAlCarrito(producto){
+
+let carrito = JSON.parse(localStorage.getItem("carrito")) || []
+
+let existente = carrito.find(p => p._id === producto._id)
+
+// 🔥 NORMALIZAR DATOS
+producto.precio = Number(producto.precio)
+producto.precioPromo = Number(producto.precioPromo)
+
+// 🔥 CALCULAR PRECIO FINAL
+let precioFinal = producto.precio
+
+if(producto.promo === true && producto.precioPromo){
+precioFinal = producto.precioPromo
+}
+
+if(existente){
+existente.cantidad++
+}else{
+carrito.push({
+_id: producto._id,
+nombre: producto.nombre,
+
+precio: precioFinal, // el que se paga
+
+precioOriginal: producto.precio, // 🔥 para mostrar tachado
+descuento: producto.descuento,   // 🔥 porcentaje
+promo: producto.promo,           // 🔥 si aplica promo
+
+descripcion: producto.descripcion,
+imagen: producto.imagenes && producto.imagenes.length ? producto.imagenes[0] : "",
+cantidad: 1
+})
+}
+
+localStorage.setItem("carrito", JSON.stringify(carrito))
+
+actualizarContador()
+
+alert("Producto agregado 🛒")
+}
+
+let bannerIndex = 0
+let bannerImgs = []
+
+async function cargarBanner(){
+
+let res = await fetch("/banner")
+let data = await res.json()
+
+bannerImgs = data.imagenes || data || []
+bannerIndex = 0
+
+let cont = document.getElementById("bannerSlider")
+
+// 🔥 IMPORTANTE: limpiar y crear correctamente
+cont.innerHTML = ""
+
+if(bannerImgs.length === 0){
+cont.innerHTML = "<img src='banner.svg'>"
+return
+}
+
+// 🔥 crear un wrapper REAL
+cont.innerHTML = ""
+
+bannerImgs.forEach(img=>{
+  let imagen = document.createElement("img")
+  imagen.src = img
+  cont.appendChild(imagen)
+})
+
+// Dentro de cargarBanner(), al final:
+bannerImgs.forEach(imgSrc => {
+    let imagen = document.createElement("img");
+    imagen.src = imgSrc;
+    imagen.alt = "Banner Sensify";
+    cont.appendChild(imagen);
+});
+
+// Aseguramos que el primer slide se vea correctamente
+setTimeout(() => {
+    actualizarBanner();
+}, 100);
+
+autoBanner()
+}
+
+function moverBanner(dir){
+
+bannerIndex += dir
+
+if(bannerIndex < 0) bannerIndex = bannerImgs.length -1
+if(bannerIndex >= bannerImgs.length) bannerIndex = 0
+
+actualizarBanner()
+}
+
+function actualizarBanner(){
+let slider = document.getElementById("bannerSlider")
+slider.style.transform = `translateX(-${bannerIndex * 100}%)`
+}
+
+function autoBanner(){
+
+if(bannerImgs.length <= 1) return
+
+setInterval(()=>{
+bannerIndex++
+if(bannerIndex >= bannerImgs.length) bannerIndex = 0
+actualizarBanner()
+},4000)
+}
+
+</script>
+
+</script>
+
+<a href="https://wa.me/3169999985?text=Hola!%20quiero%20información" target="_blank" class="whatsapp">
+
+<span class="texto">Escríbenos</span>
+
+<img src="whatsapp.png">
+
+</a>
+
+</body>
+</html>

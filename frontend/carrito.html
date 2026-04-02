@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Carrito - Sensify</title>
+
+<style>
+
+body{
+margin:0;
+font-family:'Poppins',sans-serif;
+background:#0f0f14;
+color:white;
+}
+
+/* NAVBAR */
+.navbar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:10px 30px;
+background:linear-gradient(90deg,#1b0b2e,#2a0f4a);
+}
+
+.logo img{ height:60px; }
+
+.menu{
+display:flex;
+gap:30px;
+}
+
+.menu a{
+color:#ddd;
+text-decoration:none;
+}
+
+.menu a:hover{
+color:#ff8be3;
+}
+
+.login a{
+background:#ff4fd8;
+padding:8px 15px;
+border-radius:8px;
+color:white;
+text-decoration:none;
+font-weight:bold;
+}
+
+/* CONTENIDO */
+.container{
+max-width:1000px;
+margin:auto;
+padding:40px 20px;
+}
+
+h1{
+text-align:center;
+color:#ff8be3;
+}
+
+/* ITEM */
+.item{
+display:flex;
+align-items:center;
+justify-content:space-between;
+background:#1a1a24;
+padding:20px;
+border-radius:15px;
+margin:20px 0;
+border:1px solid #2e2e40;
+}
+
+.item img{
+width:90px;
+height:90px;
+object-fit:contain;
+border-radius:10px;
+background:white;
+}
+
+.info{
+flex:1;
+margin-left:20px;
+}
+
+.info h3{
+margin:0;
+}
+
+.info p{
+margin:5px 0;
+color:#aaa;
+font-size:14px;
+}
+
+/* DERECHA */
+.derecha-item{
+display:flex;
+flex-direction:column;
+align-items:flex-end;
+gap:10px;
+}
+
+.precio{
+font-weight:bold;
+font-size:18px;
+}
+
+/* CONTADOR */
+.cantidad{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.cantidad button{
+background:#ff4fd8;
+border:none;
+color:white;
+padding:5px 10px;
+border-radius:6px;
+cursor:pointer;
+}
+
+/* RESUMEN */
+.resumen{
+display:flex;
+flex-direction:column;
+align-items:flex-end;
+margin-top:30px;
+gap:15px;
+}
+
+.total{
+font-size:22px;
+color:#ff8be3;
+font-weight:bold;
+}
+
+.pagar{
+background:#ff4fd8;
+padding:12px 25px;
+border:none;
+border-radius:10px;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+.pagar:hover{
+background:#ff2fcf;
+}
+
+/* FOOTER */
+.contacto{
+background:#0b0b0f;
+padding:50px 20px;
+text-align:center;
+border-top:1px solid #2e2e40;
+}
+
+.logo-footer{
+width:180px;
+margin-bottom:20px;
+}
+
+.contacto p{
+margin:8px 0;
+color:#ccc;
+}
+
+/* REDES */
+.redes{
+margin-top:20px;
+}
+
+.redes img{
+width:30px;
+margin:0 12px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.redes img:hover{
+transform:scale(1.2);
+}
+
+/* INFO FINAL (LOS BLOQUES BONITOS) */
+.info{
+background:#111;
+padding:50px 20px;
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:40px;
+text-align:center;
+}
+
+.bloque{
+width:220px;
+}
+
+.bloque h4{
+color:#ff4fd8;
+margin-bottom:10px;
+}
+
+.bloque p{
+color:#ccc;
+font-size:14px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+<div class="logo"><img src="logo.png"></div>
+
+<div class="menu">
+<a href="index.html">Home</a>
+<a href="sensify.html">Sensify</a>
+<a href="contacto.html">Contáctenos</a>
+</div>
+
+<div class="login">
+<a href="login.html">Iniciar sesión</a>
+</div>
+</div>
+
+<!-- CONTENIDO -->
+<div class="container">
+
+<h1>🛒 Mi carrito</h1>
+
+<div id="lista"></div>
+
+<div class="resumen">
+<div class="total" id="total">Total: $0</div>
+<button class="pagar" onclick="pagar()">Pagar ahora</button>
+</div>
+
+</div>
+
+<script>
+
+/* GENERAR NUMERO DE PEDIDO */
+function generarNumeroPedido(){
+let ultimo = localStorage.getItem("ultimoPedido") || 0
+ultimo = parseInt(ultimo) + 1
+localStorage.setItem("ultimoPedido", ultimo)
+return ultimo.toString().padStart(4, "0")
+}
+
+/* MOSTRAR CARRITO */
+function cargarCarrito(){
+
+let carrito = JSON.parse(localStorage.getItem("carrito")) || []
+let cont = document.getElementById("lista")
+cont.innerHTML=""
+
+let total = 0
+
+carrito.forEach((p,i)=>{
+
+let precioOriginal = Number(p.precioOriginal) || Number(p.precio) || 0
+let descuento = Number(p.descuento) || 0
+let promo = p.promo
+
+let precio = promo 
+  ? Math.round(precioOriginal * (1 - descuento / 100))
+  : precioOriginal
+
+let cantidad = Number(p.cantidad) || 0
+
+total += precio * cantidad
+
+cont.innerHTML += `
+<div class="item">
+<img src="${p.imagen || 'logo.png'}">
+<div class="info">
+<h3>${p.nombre}</h3>
+<p>${p.descripcion || "Sin descripción"}</p>
+</div>
+
+<div class="derecha-item">
+<div class="precio">
+${promo ? `
+<span style="color:#ff8be3; font-weight:bold;">
+-${descuento}%
+</span>
+
+<div style="text-decoration:line-through; color:#888;">
+$${precioOriginal * cantidad}
+</div>
+
+<div style="color:#00ffae;">
+$${precio * cantidad}
+</div>
+` : `
+$${precio * cantidad}
+`}
+</div>
+
+<div class="cantidad">
+<button onclick="cambiar(${i},-1)">-</button>
+<span>${cantidad}</span>
+<button onclick="cambiar(${i},1)">+</button>
+</div>
+</div>
+</div>
+`
+})
+
+document.getElementById("total").innerText = "Total: $" + total
+}
+
+/* CAMBIAR CANTIDAD */
+function cambiar(i, cambio){
+
+let carrito = JSON.parse(localStorage.getItem("carrito")) || []
+
+carrito[i].cantidad += cambio
+
+if(carrito[i].cantidad <= 0){
+carrito.splice(i,1)
+}
+
+localStorage.setItem("carrito", JSON.stringify(carrito))
+
+cargarCarrito()
+}
+
+/* PAGAR */
+async function pagar(){
+
+let carrito = JSON.parse(localStorage.getItem("carrito")) || []
+
+if(carrito.length === 0){
+alert("Tu carrito está vacío")
+return
+}
+
+let numeroPedido = generarNumeroPedido()
+
+let total = carrito.reduce((acc,p)=>{
+
+let precioOriginal = Number(p.precioOriginal) || Number(p.precio) || 0
+let descuento = Number(p.descuento) || 0
+let promo = p.promo
+
+let precio = promo 
+  ? Math.round(precioOriginal * (1 - descuento / 100))
+  : precioOriginal
+
+return acc + (precio * p.cantidad)
+
+},0)
+
+let usuario = JSON.parse(localStorage.getItem("usuario"))
+
+let pedido = {
+numero: numeroPedido,
+usuario: usuario ? usuario.correo : "invitado",
+productos: carrito,
+total: total
+}
+
+/* GUARDAR EN BACKEND */
+await fetch("/pedido",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify(pedido)
+})
+
+/* WHATSAPP */
+let mensaje = `Hola, mi pedido es el #${numeroPedido}, quisiera realizar el pago`
+
+let url = "https://wa.me/573169999985?text=" + encodeURIComponent(mensaje)
+
+window.open(url, "_blank")
+
+/* LIMPIAR CARRITO */
+localStorage.removeItem("carrito")
+
+cargarCarrito()
+}
+
+/* INICIO */
+cargarCarrito()
+
+</script>
+
+</body>
+</html>
+<div class="contacto">
+
+<img src="logo.png" class="logo-footer">
+
+<p>Tienda online en Bogotá, para todo Colombia</p>
+
+<p>Pide ahora tus productos:</p>
+
+<p><b>LÍNEA DE WHATSAPP</b></p>
+<p>+57 316 9999985</p>
+
+<p>Email: sensify.tienda@gmail.com</p>
+
+<div class="redes">
+<a href="https://www.facebook.com/share/1a1P11ZPDP/" target="_blank">
+<img src="facebook.png">
+</a>
+
+<a href="https://www.instagram.com/sensify.co_?igsh=eHBlaWJmNngxbmd5" target="_blank">
+<img src="instagram.png">
+</a>
+
+<a href="https://wa.me/3169999985?text=Hola!%20quiero%20información" target="_blank">
+<img src="whatsapp.png">
+</a>
+</div>
+
+</div>
+
+<!-- INFO -->
+<div class="info">
+
+<div class="bloque">
+<h4>TU PEDIDO EN CORTO TIEMPO</h4>
+<p>Realiza tu pedido con la seguridad de que demorará menos de una semana en llegar.</p>
+</div>
+
+<div class="bloque">
+<h4>MEDIOS DE PAGO</h4>
+<p>PSE, Tarjetas Débito, Crédito, Transferencia Electrónica, Servicio contraentrega.</p>
+</div>
+
+<div class="bloque">
+<h4>ENVÍOS A CUALQUIER PARTE DE COLOMBIA</h4>
+<p>Se entregarán de acuerdo a las políticas establecidas por la compañía de transporte.</p>
+</div>
+
+<div class="bloque">
+<h4>ASESORÍA PERSONALIZADA</h4>
+<p>Contacta a nuestros asesores expertos a través de WhatsApp y recibe atención oportuna.</p>
+</div>
+
+<div class="bloque">
+<h4>PEDIDO DISCRETO</h4>
+<p>Envíos discretos, nadie sabrá lo que has comprado, la sorpresa es para ti.</p>
+</div>
+
+</div>

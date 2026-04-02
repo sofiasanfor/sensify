@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Contáctenos</title>
+
+<style>
+
+body{
+margin:0;
+font-family:'Poppins',sans-serif;
+background:#0f0f14;
+color:white;
+}
+
+/* NAVBAR */
+.navbar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:10px 30px;
+background:linear-gradient(90deg,#1b0b2e,#2a0f4a);
+}
+
+.logo img{ height:60px; }
+
+.menu{
+display:flex;
+gap:30px;
+}
+
+.menu a{
+color:#ddd;
+text-decoration:none;
+}
+
+.menu a:hover{
+color:#ff8be3;
+}
+
+.derecha{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.login a{
+background:#ff4fd8;
+padding:8px 15px;
+border-radius:8px;
+color:white;
+text-decoration:none;
+font-weight:bold;
+}
+
+/* CARRITO */
+.carrito{
+position:relative;
+font-size:20px;
+}
+
+.contador{
+position:absolute;
+top:-8px;
+right:-10px;
+background:red;
+color:white;
+font-size:12px;
+padding:2px 6px;
+border-radius:50%;
+}
+
+/* CONTENIDO */
+.container{
+max-width:800px;
+margin:auto;
+padding:60px 20px;
+}
+
+h1{
+text-align:center;
+color:#ff8be3;
+margin-bottom:40px;
+}
+
+/* FORMULARIO */
+.formulario{
+background:#1a1a24;
+padding:30px;
+border-radius:12px;
+border:1px solid #2e2e40;
+}
+
+input, textarea{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:8px;
+border:none;
+}
+
+button{
+background:#ff4fd8;
+border:none;
+padding:12px;
+color:white;
+border-radius:8px;
+cursor:pointer;
+width:100%;
+font-size:16px;
+}
+
+button:hover{
+background:#ff2fcf;
+}
+
+/* INFO CONTACTO */
+.info-contacto{
+text-align:center;
+margin-top:30px;
+color:#ccc;
+}
+
+/* FOOTER CONTACTO */
+.contacto{
+background:#0b0b0f;
+padding:40px;
+text-align:center;
+margin-top:50px;
+}
+
+.logo-footer{
+width:180px;
+margin-bottom:20px;
+}
+
+.redes img{
+width:30px;
+margin:0 10px;
+cursor:pointer;
+}
+
+/* INFO FINAL */
+.info{
+background:#111;
+padding:40px 20px;
+display:flex;
+justify-content:space-around;
+flex-wrap:wrap;
+text-align:center;
+}
+
+.bloque{
+width:200px;
+margin:10px;
+}
+
+.bloque h4{
+color:#ff4fd8;
+margin-bottom:10px;
+}
+
+/* WHATSAPP */
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+display:flex;
+align-items:center;
+gap:10px;
+text-decoration:none;
+z-index:1000;
+}
+
+.texto{
+background:white;
+color:#333;
+padding:10px 15px;
+border-radius:8px;
+font-weight:bold;
+}
+
+.whatsapp img{
+width:50px;
+height:50px;
+background:#25D366;
+padding:10px;
+border-radius:50%;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+<div class="logo"><img src="logo.png"></div>
+
+<div class="menu">
+<a href="index.html">Home</a>
+<a href="sensify.html">Sensify</a>
+<a href="contacto.html">Contáctenos</a>
+</div>
+
+<div class="derecha">
+
+<div class="carrito" onclick="irCarrito()">
+🛒<span class="contador">0</span>
+</div>
+
+<div class="login">
+<a href="login.html">Iniciar sesión</a>
+</div>
+
+</div>
+</div>
+
+<!-- CONTENIDO -->
+<div class="container">
+
+<h1>Contáctanos 💌</h1>
+
+<div class="formulario">
+
+<input placeholder="Tu nombre">
+<input placeholder="Tu correo">
+<textarea rows="5" placeholder="Escribe tu mensaje..."></textarea>
+
+<button onclick="enviar()">Enviar mensaje</button>
+
+</div>
+
+<div class="info-contacto">
+<p>📱 WhatsApp: +57 316 9999985</p>
+<p>📧 Email: sensify.tienda@gmail.com</p>
+</div>
+
+</div>
+
+<!-- CONTACTO -->
+<div class="contacto">
+
+<img src="logo.png" class="logo-footer">
+
+<p>Tienda online en Bogotá, para todo Colombia</p>
+
+<p>Pide ahora tus productos:</p>
+
+<p><b>LÍNEA DE WHATSAPP</b></p>
+<p>+57 316 9999985</p>
+
+<p>Email: sensify.tienda@gmail.com</p>
+
+<div class="redes">
+<a href="https://www.facebook.com/share/1a1P11ZPDP/" target="_blank">
+<img src="facebook.png">
+</a>
+
+<a href="https://www.instagram.com/sensify.co_?igsh=eHBlaWJmNngxbmd5" target="_blank">
+<img src="instagram.png">
+</a>
+
+<a href="https://wa.me/573169999985" target="_blank">
+<img src="whatsapp.png">
+</a>
+</div>
+
+</div>
+
+<!-- INFO FINAL -->
+<div class="info">
+
+<div class="bloque">
+<h4>TU PEDIDO EN CORTO TIEMPO</h4>
+<p>Realiza tu pedido con la seguridad de que demorará menos de una semana en llegar.</p>
+</div>
+
+<div class="bloque">
+<h4>MEDIOS DE PAGO</h4>
+<p>PSE, Tarjetas Débito, Crédito, Transferencia Electrónica, Servicio contraentrega.</p>
+</div>
+
+<div class="bloque">
+<h4>ENVÍOS A CUALQUIER PARTE DE COLOMBIA</h4>
+<p>Se entregarán de acuerdo a las políticas establecidas por la compañía de transporte.</p>
+</div>
+
+<div class="bloque">
+<h4>ASESORÍA PERSONALIZADA</h4>
+<p>Contacta a nuestros asesores expertos a través de WhatsApp y recibe atención oportuna.</p>
+</div>
+
+<div class="bloque">
+<h4>PEDIDO DISCRETO</h4>
+<p>Envíos discretos, nadie sabrá lo que has comprado, la sorpresa es para ti.</p>
+</div>
+
+</div>
+
+<!-- WHATSAPP FLOTANTE -->
+<a href="https://wa.me/573169999985" target="_blank" class="whatsapp">
+<div class="texto">Escríbenos</div>
+<img src="whatsapp.png">
+</a>
+
+<script>
+
+function actualizarContador(){
+
+let carrito = JSON.parse(localStorage.getItem("carrito")) || []
+
+let total = carrito.reduce((acc,p)=> acc + (p.cantidad || 1), 0)
+
+document.querySelectorAll(".contador").forEach(c=>{
+
+if(total === 0){
+c.style.display = "none"
+}else{
+c.style.display = "block"
+c.innerText = total
+}
+
+})
+
+}
+
+actualizarContador()
+
+function enviar(){
+
+let nombre = document.querySelectorAll("input")[0].value
+let correo = document.querySelectorAll("input")[1].value
+let mensaje = document.querySelector("textarea").value
+
+let texto = `Hola, soy ${nombre}%0ACorreo: ${correo}%0AMensaje: ${mensaje}`
+
+window.open("https://wa.me/573169999985?text=" + texto)
+
+}
+
+function irCarrito(){
+window.location = "carrito.html"
+}
+</script>
+
+</script>
+
+</body>
+</html>
