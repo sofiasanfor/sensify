@@ -243,29 +243,21 @@ res.send("ok")
 app.post("/registro", async (req,res)=>{
 try{
 
-console.log("DATOS QUE LLEGAN:", req.body)
-
-let existe = await Usuario.findOne({correo:req.body.correo})
-
-if(existe){
-return res.json({mensaje:"correo ya registrado"})
-}
-
-let nuevo = new Usuario({
-nombre:req.body.nombre,
-apellido:req.body.apellido,
-correo:req.body.correo,
-password:req.body.password,
-rol:"cliente"
+let nuevoUsuario = new Usuario({
+  nombre: req.body.nombre,
+  apellido: req.body.apellido,
+  correo: req.body.correo,
+  password: req.body.password,
+  rol: "usuario" // 🔥 ESTO FALTABA
 })
 
-await nuevo.save()
+await nuevoUsuario.save()
 
 res.json({mensaje:"usuario creado"})
 
-}catch(error){
-console.log("ERROR REGISTRO:", error)
-res.status(500).json({mensaje:"error servidor"})
+}catch(err){
+console.log("ERROR REGISTRO:", err)
+res.status(500).json({mensaje:"error"})
 }
 })
 
