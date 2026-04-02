@@ -16,8 +16,17 @@ mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => console.log("Mongo conectado"))
-.catch(err => console.log("Error Mongo:", err));
+.then(() => {
+  console.log("Mongo conectado");
+
+  app.listen(process.env.PORT || 3000, () => {
+    console.log("Servidor corriendo");
+  });
+
+})
+.catch(err => {
+  console.log("Error Mongo:", err);
+});
 
 // MULTER
 const storage = multer.diskStorage({
@@ -552,7 +561,3 @@ res.send("ok")
 
 // FRONTEND
 app.use(express.static(path.join(__dirname,"../frontend")))
-
-app.listen(process.env.PORT || 3000, () => {
-  console.log("Servidor corriendo");
-});
