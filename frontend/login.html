@@ -8,13 +8,15 @@
 
 body{
 margin:0;
-height:100vh;
+min-height:100vh; /* 🔥 este es el fix */
 display:flex;
 justify-content:center;
 align-items:center;
 font-family:'Poppins',sans-serif;
 background:linear-gradient(135deg,#0f0f14,#1b0b2e);
 color:white;
+padding:20px;
+box-sizing:border-box;
 }
 
 /* TARJETA */
@@ -98,6 +100,20 @@ text-decoration:underline;
     flex-direction: column !important;
     padding: 15px !important;
   }
+
+  @media (max-width: 768px){
+
+body{
+align-items:flex-start; /* 🔥 esto evita que se corte */
+}
+
+.login{
+width:100% !important;
+max-width:350px;
+margin:auto;
+}
+
+}
 
   /* 🔥 sidebar */
   .sidebar{
