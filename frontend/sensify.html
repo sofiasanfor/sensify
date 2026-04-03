@@ -356,7 +356,7 @@ box-shadow:0 0 20px rgba(255, 75, 216, 0.15);
 <div class="carrito" onclick="irCarrito()">
 🛒<span class="contador">0</span>
 </div>
-<div class="login"><a href="login.html">Iniciar sesión</a></div>
+<div class="login" id="zonaUsuario"></div>
 </div>
 </div>
 
@@ -498,6 +498,48 @@ actualizarContador()
 function irCarrito(){
 window.location = "carrito.html"
 }
+
+function verificarUsuario(){
+
+let usuario = JSON.parse(localStorage.getItem("usuario"))
+let cont = document.getElementById("zonaUsuario")
+
+if(usuario){
+
+cont.innerHTML = `
+<span style="color:#ff8be3; font-weight:bold;">
+Hola, ${usuario.nombre} 👋
+</span>
+
+<button onclick="logout()" style="
+margin-left:10px;
+background:#ff4fd8;
+border:none;
+padding:6px 10px;
+border-radius:6px;
+color:white;
+cursor:pointer;
+">
+Salir
+</button>
+`
+
+}else{
+
+cont.innerHTML = `
+<a href="login.html">Iniciar sesión</a>
+`
+
+}
+
+}
+
+function logout(){
+localStorage.removeItem("usuario")
+window.location.href = "index.html"
+}
+
+verificarUsuario()
 </script>
 
 </script>
