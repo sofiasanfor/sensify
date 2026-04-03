@@ -2,14 +2,20 @@ const express = require("express")
 const path = require("path")
 const mongoose = require("mongoose")
 const multer = require("multer")
+const streamifier = require("streamifier");
 
 
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// SERVIR IMAGENES
-app.use("/uploads", express.static(path.join(__dirname,"uploads")))
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET
+});
 
 // CONEXION
 mongoose.connect(process.env.MONGO_URI)
@@ -26,15 +32,7 @@ mongoose.connect(process.env.MONGO_URI)
 });
 
 // MULTER
-const storage = multer.diskStorage({
-destination:(req,file,cb)=>{
-cb(null, path.join(__dirname,"uploads"))
-},
-filename:(req,file,cb)=>{
-cb(null, Date.now()+"-"+file.originalname)
-}
-})
-
+const storage = multer.memoryStorage();
 const upload = multer({
 storage:storage,
 limits:{fileSize:5*1024*1024},
@@ -71,7 +69,6 @@ promo:Boolean,
 descuento:{ type:Number, default:0 },
 precioPromo:Number
 })
-
 
 // NUEVA RUTA 👇
 app.post("/productos/vista/:id", async (req,res)=>{
@@ -200,33 +197,6 @@ let banner = await Banner.findOne()
 res.json(banner || {imagenes:[]})
 })
 
-app.post("/carrito/agregar", async (req,res)=>{
-
-let {usuario, producto} = req.body
-
-let carrito = await Carrito.findOne({usuario})
-
-if(!carrito){
-carrito = new Carrito({
-usuario,
-productos:[]
-})
-}
-
-let existe = carrito.productos.find(p=>p.productoId === producto.id)
-
-if(existe){
-existe.cantidad += producto.cantidad
-}else{
-carrito.productos.push(producto)
-}
-
-await carrito.save()
-
-res.send("ok")
-})
-
-
 app.get("/carrito/:usuario", async (req,res)=>{
 let carrito = await Carrito.findOne({usuario:req.params.usuario})
 if(!carrito) return res.json({productos:[]})
@@ -299,7 +269,23 @@ if(!req.files || req.files.length === 0){
 return res.status(400).send("imagen requerida")
 }
 
-let imagenes = req.files.map(f => "/uploads/" + f.filename)
+let imagenes = [];
+
+for (let file of req.files) {
+
+  let resultado = await new Promise((resolve, reject)=>{
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: "sensify" },
+      (error, result)=>{
+        if(result) resolve(result);
+        else reject(error);
+      }
+    );
+    streamifier.createReadStream(file.buffer).pipe(stream);
+  });
+
+  imagenes.push(resultado.secure_url);
+}
 
 
 let nuevo = new Producto({
@@ -324,8 +310,6 @@ console.log(e)
 res.status(500).send("error real del servidor")
 }
 })
-
-
 
 // OBTENER PRODUCTOS
 app.get("/productos", async (req,res)=>{
@@ -492,16 +476,6 @@ return t + (p.precio*p.stock)
 let stockCritico = productos.filter(p => p.stock <= 3).length
 
 res.json({
-productos:productos.length,
-usuarios:usuarios.length,
-pendientes,
-enviados,
-masVendido,
-stockCritico,
-valorInventario
-})
-
-res.json({
 productos: productos.length,
 usuarios: usuarios.length,
 pendientes,
@@ -523,6 +497,20 @@ res.json(usuarios)
 })
 
 app.delete("/productos/:id", async (req,res)=>{
+
+let producto = await Producto.findById(req.params.id)
+
+if(producto && producto.imagenes){
+
+for(let img of producto.imagenes){
+
+let public_id = img.split("/").pop().split(".")[0]
+
+await cloudinary.uploader.destroy("sensify/" + public_id)
+
+}
+
+}
 
 await Producto.findByIdAndDelete(req.params.id)
 
