@@ -172,7 +172,23 @@ if(!req.files || req.files.length === 0){
 return res.status(400).send("No llegaron imágenes")
 }
 
-let imagenes = req.files.map(f => "/uploads/" + f.filename)
+let imagenes = [];
+
+for (let file of req.files) {
+
+  let resultado = await new Promise((resolve, reject)=>{
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: "sensify/banner" },
+      (error, result)=>{
+        if(result) resolve(result);
+        else reject(error);
+      }
+    );
+    streamifier.createReadStream(file.buffer).pipe(stream);
+  });
+
+  imagenes.push(resultado.secure_url);
+}
 
 let existente = await Banner.findOne()
 
