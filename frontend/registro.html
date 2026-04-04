@@ -15,7 +15,7 @@
 
 body{
 margin:0;
-min-height:100vh;
+min-height:100dvh; /* 🔥 clave para móviles modernos */
 display:flex;
 justify-content:center;
 align-items:center;
@@ -24,6 +24,10 @@ background:linear-gradient(135deg,#0f0f14,#1b0b2e);
 color:white;
 padding:20px;
 box-sizing:border-box;
+}
+
+html{
+height:100%;
 }
 
 /* TARJETA */
@@ -103,15 +107,19 @@ text-decoration:underline;
 @media (max-width: 768px){
 
 body{
-align-items:flex-start;
+align-items:flex-start; /* 🔥 ya no lo centra raro */
+padding-top:40px;
 }
 
 .registro{
-padding:20px;
-margin:auto;
+width:100%;
+max-width:100%;
+padding:25px;
+margin:0 auto;
 }
 
 }
+
 </style>
 </head>
 
