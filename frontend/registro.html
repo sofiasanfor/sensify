@@ -15,10 +15,6 @@
 
 body{
 margin:0;
-min-height:100dvh; /* 🔥 clave para móviles modernos */
-display:flex;
-justify-content:center;
-align-items:center;
 font-family:'Poppins',sans-serif;
 background:linear-gradient(135deg,#0f0f14,#1b0b2e);
 color:white;
@@ -28,6 +24,13 @@ box-sizing:border-box;
 
 html{
 height:100%;
+}
+
+.contenedor{
+min-height:100dvh;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
 /* TARJETA */
@@ -106,16 +109,15 @@ text-decoration:underline;
 
 @media (max-width: 768px){
 
-body{
-align-items:flex-start; /* 🔥 ya no lo centra raro */
+.contenedor{
+align-items:flex-start;
 padding-top:40px;
 }
 
 .registro{
 width:100%;
-max-width:100%;
+max-width:400px;
 padding:25px;
-margin:0 auto;
 }
 
 }
@@ -125,6 +127,7 @@ margin:0 auto;
 
 <body>
 
+<div class="contenedor">
 <div class="registro">
 
 <img src="logo.png" class="logo">
@@ -142,6 +145,7 @@ margin:0 auto;
 
 <a href="login.html">Ya tengo cuenta</a>
 
+</div>
 </div>
 
 <script>
