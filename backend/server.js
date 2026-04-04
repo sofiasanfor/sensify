@@ -156,6 +156,14 @@ cantidad:Number
 ]
 })
 
+const Colores = mongoose.model("Colores",{
+  principal:String,
+  secundario:String,
+  acento:String,
+  texto:String,
+  card:String
+})
+
 const Banner = mongoose.model("Banner", {
 imagenes: [String]
 })
@@ -228,6 +236,35 @@ carrito.productos = carrito.productos.filter(p=>p.productoId !== req.body.produc
 await carrito.save()
 
 res.send("ok")
+})
+
+app.post("/colores", async (req,res)=>{
+
+let existe = await Colores.findOne()
+
+if(existe){
+  Object.assign(existe, req.body)
+  await existe.save()
+}else{
+  let nuevo = new Colores(req.body)
+  await nuevo.save()
+}
+
+res.send("colores guardados")
+})
+
+app.get("/colores", async (req,res)=>{
+
+let colores = await Colores.findOne()
+
+res.json(colores || {
+  principal:"#1b0b2e",
+  secundario:"#ff4fd8",
+  acento:"#ff8be3",
+  texto:"#ffffff",
+  card:"#1a1a24"
+})
+
 })
 
 
