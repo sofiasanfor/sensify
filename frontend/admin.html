@@ -771,27 +771,100 @@ border-radius:15px;
 ">
 
 <label>Color principal</label>
-<input id="principal" type="color" value="${colores.principal}">
+<div style="display:flex; gap:10px; align-items:center;">
+  <input id="principal" type="color" value="${colores.principal}">
+  <div id="previewPrincipal" style="
+    width:50px;
+    height:50px;
+    border-radius:10px;
+    background:${colores.principal};
+    border:2px solid #fff;
+  "></div>
+</div>
 
 <label>Color secundario</label>
-<input id="secundario" type="color" value="${colores.secundario}">
+<div style="display:flex; gap:10px; align-items:center;">
+  <input id="secundario" type="color" value="${colores.secundario}">
+  <div id="previewSecundario" style="
+    width:50px;
+    height:50px;
+    border-radius:10px;
+    background:${colores.secundario};
+    border:2px solid #fff;
+  "></div>
+</div>
 
 <label>Color acento</label>
-<input id="acento" type="color" value="${colores.acento}">
+<div style="display:flex; gap:10px; align-items:center;">
+  <input id="acento" type="color" value="${colores.acento}">
+  <div id="previewAcento" style="
+    width:50px;
+    height:50px;
+    border-radius:10px;
+    background:${colores.acento};
+    border:2px solid #fff;
+  "></div>
+</div>
 
 <label>Color texto</label>
-<input id="texto" type="color" value="${colores.texto}">
+<div style="display:flex; gap:10px; align-items:center;">
+  <input id="texto" type="color" value="${colores.texto}">
+  <div id="previewTexto" style="
+    width:50px;
+    height:50px;
+    border-radius:10px;
+    background:${colores.texto};
+    border:2px solid #fff;
+  "></div>
+</div>
 
 <label>Color card</label>
-<input id="card" type="color" value="${colores.card}">
+<div style="display:flex; gap:10px; align-items:center;">
+  <input id="card" type="color" value="${colores.card}">
+  <div id="previewCard" style="
+    width:50px;
+    height:50px;
+    border-radius:10px;
+    background:${colores.card};
+    border:2px solid #fff;
+  "></div>
+</div>
 
 <button onclick="guardarColores()" class="btn-guardar">
 Guardar colores
 </button>
 
+<button onclick="resetearColores()" class="btn-eliminar">
+Restaurar colores
+</button>
+
 </div>
 `
 }
+
+async function resetearColores(){
+
+let coloresBase = {
+  principal: "#1b0b2e",
+  secundario: "#ff4fd8",
+  acento: "#ff8be3",
+  texto: "#ffffff",
+  card: "#1a1a24"
+}
+
+// guardar en backend
+await fetch("/colores",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify(coloresBase)
+})
+
+alert("Colores restaurados 💜")
+
+// recargar vista
+mostrarColores()
+}
+
 
 async function guardarColores(){
 
@@ -1168,6 +1241,18 @@ alert("Error: " + text)
 }
 }
 
+document.addEventListener("input", e => {
+  if(e.target.type === "color"){
+
+    let nombre = e.target.id
+    let preview = document.getElementById("preview" + nombre.charAt(0).toUpperCase() + nombre.slice(1))
+
+    if(preview){
+      preview.style.background = e.target.value
+    }
+
+  }
+})
 
 // INICIO
 mostrarDashboard()
