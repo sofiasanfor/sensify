@@ -4,6 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Registro - Sensify</title>
 
+
 <style>
 
 :root{
@@ -21,10 +22,6 @@ background: linear-gradient(135deg, var(--color-principal), #0f0f14);
 color: var(--color-texto);
 padding:20px;
 box-sizing:border-box;
-}
-
-html{
-height:100%;
 }
 
 .contenedor{
@@ -60,7 +57,7 @@ margin-bottom:10px;
 /* TITULO */
 .registro h2{
 margin-bottom:20px;
-background: var(--color-card);
+color: var(--color-acento);
 }
 
 /* INPUTS */
@@ -70,13 +67,18 @@ padding:12px;
 margin:10px 0;
 border-radius:8px;
 border:none;
-background:#2a2a35;
-color:white;
+background: var(--color-principal);
+color: var(--color-texto);
 outline:none;
+transition:0.2s;
 }
 
 .registro input::placeholder{
 color:#aaa;
+}
+
+.registro input:focus{
+box-shadow: 0 0 0 2px var(--color-secundario);
 }
 
 /* BOTON */
@@ -91,6 +93,7 @@ color: var(--color-texto);
 font-weight:bold;
 cursor:pointer;
 transition:0.3s;
+box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 .registro button:hover{
@@ -100,7 +103,7 @@ transform:scale(1.05);
 
 /* LINK */
 .registro a{
-color: var(--color-acento);
+color: var(--color-texto);
 text-decoration:none;
 }
 
@@ -124,6 +127,33 @@ padding:25px;
 
 }
 
+.mensaje{
+display:none;
+margin-top:15px;
+padding:12px;
+border-radius:8px;
+font-size:14px;
+font-weight:500;
+text-align:center;
+transition:0.3s;
+}
+
+.registro button:active{
+transform:scale(0.97);
+}
+
+/* error */
+.mensaje.error{
+background: rgba(255, 0, 100, 0.15);
+color: var(--color-secundario);
+}
+
+/* éxito */
+.mensaje.exito{
+background: rgba(0, 255, 170, 0.15);
+color: var(--color-acento);
+}
+
 </style>
 </head>
 
@@ -139,10 +169,11 @@ padding:25px;
 <input id="nombre" placeholder="Nombre">
 <input id="apellido" placeholder="Apellido">
 <input id="correo" placeholder="Correo">
-<input id="password" type="password" placeholder="Contraseña">
+<input id="password" type="password" placeholder="Contraseña"
+onkeypress="if(event.key==='Enter') registrar()">
 
 <button onclick="registrar()">Registrarse</button>
-
+<div id="mensaje" class="mensaje"></div>
 <br><br>
 
 <a href="login.html">Ya tengo cuenta</a>
@@ -154,12 +185,27 @@ padding:25px;
 
 async function registrar(){
 
-let datos = {
-nombre:document.getElementById("nombre").value,
-apellido:document.getElementById("apellido").value,
-correo:document.getElementById("correo").value,
-password:document.getElementById("password").value
+let nombre = document.getElementById("nombre").value
+let apellido = document.getElementById("apellido").value
+let correo = document.getElementById("correo").value
+let password = document.getElementById("password").value
+
+if(!nombre || !apellido || !correo || !password){
+mostrarMensaje("Completa todos los campos")
+return
 }
+
+if(!correo.includes("@") || !correo.includes(".")){
+mostrarMensaje("Correo inválido")
+return
+}
+
+if(password.length < 6){
+mostrarMensaje("La contraseña debe tener mínimo 6 caracteres")
+return
+}
+
+let datos = {nombre, apellido, correo, password}
 
 let res = await fetch("/registro",{
 method:"POST",
@@ -170,13 +216,21 @@ body:JSON.stringify(datos)
 let data = await res.json()
 
 if(data.mensaje !== "usuario creado"){
-alert("Error al registrar")
+mostrarMensaje("Error al registrar")
 return
 }
 
-alert("Cuenta creada 💜")
+// éxito 💜
+mostrarMensaje("Cuenta creada 💜", "exito")
 
+setTimeout(()=>{
 window.location = "login.html"
+},1200)
+
+document.getElementById("nombre").value = ""
+document.getElementById("apellido").value = ""
+document.getElementById("correo").value = ""
+document.getElementById("password").value = ""
 
 }
 
@@ -195,8 +249,31 @@ root.style.setProperty("--color-card", colores.card)
 
 }
 
-// ejecutar
-aplicarColores()
+function mostrarMensaje(texto, tipo="error"){
+
+let msg = document.getElementById("mensaje")
+
+msg.innerText = texto
+msg.className = "mensaje " + tipo
+msg.style.display = "block"
+
+// SOLO si es error
+if(tipo === "error"){
+  document.getElementById("password").value = ""
+  document.getElementById("password").focus()
+}
+
+// desaparecer después de 3 segundos
+setTimeout(()=>{
+  msg.style.display = "none"
+},3000)
+
+}
+
+window.onload = function(){
+  aplicarColores()
+  document.getElementById("nombre").focus()
+}
 
 </script>
 
